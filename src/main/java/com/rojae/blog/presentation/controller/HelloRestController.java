@@ -23,6 +23,17 @@ public class HelloRestController {
         return "hello";
     }
 
+    @RequestMapping("/blog")
+    public String blog(Model model) {
+        return "blog";
+    }
+
+
+    @RequestMapping("/post")
+    public String post(Model model) {
+        return "post";
+    }
+
     @RequestMapping("/add")
     public Hello add(Hello hello) {
 
