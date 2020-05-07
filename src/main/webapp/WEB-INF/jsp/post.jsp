@@ -23,7 +23,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+            <a class="navbar-brand" href="index.html">로재의 개발일기</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -33,13 +33,13 @@
                     <a href="/blog">Home</a>
                 </li>
                 <li>
-                    <a href="#about.html">About</a>
+                    <a href="#about.html">최신글</a>
                 </li>
                 <li>
-                    <a href="/post">Sample Post</a>
+                    <a href="/post">인기글</a>
                 </li>
                 <li>
-                    <a href="#contact.html">Contact</a>
+                    <a href="#contact.html">방명록</a>
                 </li>
             </ul>
         </div>
@@ -56,7 +56,7 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-heading">
                     <h1>${post.subject}</h1>
-                    <h2 class="subheading">부제목</h2>
+                    <h2 class="subheading">Spring Boot rojae's blog prototype</h2>
                     <span class="meta">Posted by <a href="#">Origoni</a> on ${post.regDate}</span>
                 </div>
             </div>

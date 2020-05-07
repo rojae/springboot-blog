@@ -103,6 +103,13 @@
             <artifactId>origoni-startbootstrap-clean-blog</artifactId>
             <version>1.0.3</version>
         </dependency>
+
+        <!-- blog editor, pen -->
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>pen</artifactId>
+            <version>0.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
