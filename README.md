@@ -1,5 +1,5 @@
 # springboot-blog [진행 중]
-spring boot blog rojae
+spring boot blog rojae with IntelliJ
 
 ___[블로그 개발] Spring data JPA, H2, lombok 사용 -> 글 추가, 리스트로 확인, 글 상세 보기___
 
