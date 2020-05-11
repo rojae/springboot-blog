@@ -1,55 +1,38 @@
 package com.rojae.blog.domain.model.entity;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+@Getter
+@Setter
 @Entity
 public class Post {
     @Id
     @GeneratedValue
     int id;
 
-    String subject;
+    @NotNull
+    @Size(min = 1, max = 255)
+    String title;
 
-    @Column(length = 100000000)
+    @Size(max = 255)
+    String subtitle;
+
+    @NotNull
+    @Size(min = 1, max = 100000000)
+    @Column(length = 100000000, nullable = false)
     String content;
 
     Date regDate;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getRegDate() {
-        return regDate;
-    }
-
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
-    }
 }

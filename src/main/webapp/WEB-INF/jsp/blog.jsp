@@ -23,14 +23,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">로재의 개발일기</a>
+            <a class="navbar-brand" href="#">로재의 개발일기</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="/blog">Home</a>
+                    <a href="/blog/index.html">Home</a>
                 </li>
                 <li>
                     <a href="#about.html">최신글</a>
@@ -39,7 +39,7 @@
                     <a href="/post">인기글</a>
                 </li>
                 <li>
-                    <a href="#contact.html">방명록</a>
+                    <a href="/post/write">글쓰기</a>
                 </li>
             </ul>
         </div>
@@ -55,9 +55,9 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="site-heading">
-                    <h1>Clean Blog</h1>
+                    <h2>Rlog</h2>
                     <hr class="small">
-                    <span class="subheading">A Clean Blog Theme by Start Bootstrap</span>
+                    <span class="subheading">SpringBoot Rojae Blog</span>
                 </div>
             </div>
         </div>
@@ -73,10 +73,10 @@
                 <div class="post-preview">
                     <a href="/post/${post.id}">
                         <h2 class="post-title">
-                                ${post.subject}
+                                ${post.title}
                         </h2>
                     </a>
-                    <p class="post-meta">Posted by <a href="#">Origoni</a> on ${post.regDate}</p>
+                    <p class="post-meta">Posted by <a href="#">rojae</a> on ${post.regDate}</p>
                 </div>
                 <hr>
             </c:forEach>

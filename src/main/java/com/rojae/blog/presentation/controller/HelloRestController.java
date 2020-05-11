@@ -2,10 +2,13 @@ package com.rojae.blog.presentation.controller;
 
 import java.util.List;
 
+import com.rojae.blog.domain.model.entity.Post;
+import com.rojae.blog.infrastructure.dao.PostDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rojae.blog.domain.model.entity.Hello;
@@ -16,6 +19,9 @@ public class HelloRestController {
 
     @Autowired
     private HelloDao helloDao;
+
+    @Autowired
+    private PostDao postDao;
 
     @RequestMapping("/hello")
     public String index(Model model) {
@@ -28,6 +34,12 @@ public class HelloRestController {
         return "blog";
     }
 
+    @RequestMapping(value = "/blog/index.html", method = RequestMethod.GET)
+    public String index2(Model model) {
+        List<Post> postList = postDao.findAll();
+        model.addAttribute("postList", postList);
+        return "blog";
+    }
 
     @RequestMapping("/post")
     public String post(Model model) {

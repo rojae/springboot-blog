@@ -9,9 +9,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/post")
@@ -24,8 +27,14 @@ public class PostController {
     public String form(Post post) {
         return "form";
     }
+
+    // post 클래스에서 검사한 유효성 검사를
+    // binding Result를 통해서 에러 처리
     @RequestMapping(value = "/write", method = RequestMethod.POST)
-    public String write(Post post) {
+    public String write(@Valid Post post, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "form";
+        }
         post.setRegDate(new Date());
         return "redirect:/post/" + postDao.save(post).getId();
     }
@@ -43,4 +52,6 @@ public class PostController {
         model.addAttribute("post", post);
         return "post";
     }
+
+
 }
