@@ -1,7 +1,7 @@
 # springboot-blog [진행 중]
 spring boot blog rojae
 
-___[블로그 개발] JPA, H2 사용 -> 글 추가, 리스트로 확인, 글 상세 보기___
+___[블로그 개발] JPA, H2, lombok 사용 -> 글 추가, 리스트로 확인, 글 상세 보기___
 
 *** 
 시작 페이지
