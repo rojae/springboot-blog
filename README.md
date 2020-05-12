@@ -27,7 +27,7 @@ http://localhost:8080/post/write
 
 *** 
 
-___[블로그 개발] Spring data JPA, H2, lombok 사용 -> 글 추가, 리스트로 확인, 글 상세 보기___
+___[블로그 관리자 개발] 
 
 *** 
 
