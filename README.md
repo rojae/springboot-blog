@@ -24,3 +24,9 @@ http://localhost:8080/post/write?subject=테스트제목&content=테스트내용
 http://localhost:8080/post/list
 
 http://localhost:8080/post/write
+
+
+# springboot-blog-admin [진행 중]
+spring boot blog-admin rojae with IntelliJ
+
+___계획 중
