@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Pen - What You See Is What You Get (WYSIWYG)</title>
+    <title>로재의 개발일기 - 글쓰기</title>
     <link rel="stylesheet" href="/webjars/bootstrap/3.3.4/dist/css/bootstrap.min.css">
     <style type="text/css">
         *{padding:0;margin:0;}
@@ -71,27 +71,29 @@
     <i class="pen-icon icon-underline" data-action="underline"></i>
     <i class="pen-icon icon-createlink" data-action="createlink"></i>
 </div>
+<c:if test="${post.id == 0}"><c:url var="actionUrl" value="/post/write"/></c:if>
+<c:if test="${post.id != 0}"><c:url var="actionUrl" value="/post/${post.id}/edit"/></c:if>
 
-<!-- spring 5.0 버전부터 commandName -> modelAttribute -->
-<form:form action="/post/write" modelAttribute="post" onsubmit="if($('#pen').html()!='<p><br></p>')$('#content').val($('#pen').html()); pen.destroy();" method="post">
+<form:form action="${actionUrl}" modelAttribute="post" onsubmit="if($('#pen').html()!='<p><br></p>')$('#content').val($('#pen').html()); pen.destroy();" method="post">
+
+    <c:if test="${post.id != 0}"><form:input type="hidden" path="regDate" /></c:if>
 
     <form:errors path="*" cssClass="errorblock" element="div" />
 
     <form:input type="text" path="title" placeholder="Title"
                 style="height: 70px; width: 100%; font-size: 55px;
-        border: none; border-right: 0px; border-top: 0px; boder-left: 0px; boder-bottom: 1px; outline-style: none;
-        font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 800;" />
+			border: none; border-right: 0px; border-top: 0px; boder-left: 0px; boder-bottom: 1px; outline-style: none;
+			font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 800;" />
     <form:errors path="title" cssClass="error" />
 
     <form:input type="text" path="subtitle" placeholder="Subtitle (option)"
                 style="height: 60px; width: 100%; font-size: 24px;
-        border: none; border-right: 0px; border-top: 0px; boder-left: 0px; boder-bottom: 1px; outline-style: none;
-        font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 600;" />
+			border: none; border-right: 0px; border-top: 0px; boder-left: 0px; boder-bottom: 1px; outline-style: none;
+			font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 600;" />
 
     <hr style="margin-top: 2px; border-top: 1px solid #999;">
 
     <div data-toggle="pen" data-placeholder="Content" id="pen" style="min-height: 200px;"></div>
-
     <form:input type="hidden" path="content" id="content" />
     <form:errors path="content" cssClass="error" />
 
@@ -101,6 +103,7 @@
 
 </form:form>
 
+
 <p class="text-muted">Powered By <a href="https://redcoder.tistory.com/">rojae</a> | WYSIWYG Editor by <a href="https://github.com/sofish/pen">Pen Editor</a></p>
 
 <script src="/webjars/jquery/2.1.3/dist/jquery.min.js"></script>
@@ -108,6 +111,9 @@
 <script src="/webjars/pen/0.1.0/src/pen.js"></script>
 <script src="/webjars/pen/0.1.0/src/markdown.js"></script>
 <script type="text/javascript">
+    // 수정 시, 글 가져오기
+    $('#pen').html($('#content').val());
+
     // config
     var options = {
         toolbar : document.getElementById('custom-toolbar'),
@@ -126,8 +132,10 @@
             this.classList.remove('disabled');
         }
     });
-
     // 바디의 마진을 가지고 와서. 툴바의 좌측으로.
+
+
+
 </script>
 </body>
 </html>

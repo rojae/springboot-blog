@@ -3,8 +3,9 @@ package com.rojae.blog.domain.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +34,6 @@ public class Post {
     @Column(length = 100000000, nullable = false)
     String content;
 
-    Date regDate;
-
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    LocalDateTime regDate;
 }

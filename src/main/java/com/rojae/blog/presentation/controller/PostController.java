@@ -3,7 +3,7 @@ package com.rojae.blog.presentation.controller;
 import com.rojae.blog.domain.model.entity.Post;
 import com.rojae.blog.infrastructure.dao.PostDao;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class PostController {
         if (bindingResult.hasErrors()) {
             return "form";
         }
-        post.setRegDate(new Date());
+        post.setRegDate(LocalDateTime.now());
         return "redirect:/post/" + postDao.save(post).getId();
     }
 
@@ -53,5 +53,24 @@ public class PostController {
         return "post";
     }
 
+    @RequestMapping("/{id}/delete")
+    public String delete(@PathVariable int id) {
+        postDao.deleteById(id);
+        return "redirect:/post/list";
+    }
 
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+    public String editor(Model model, @PathVariable int id) {
+        Post post = postDao.findById(id).orElse(null);
+        model.addAttribute("post", post);
+        return "form";
+    }
+
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+    public String edit(@Valid Post post, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "form";
+        }
+        return "redirect:/post/" + postDao.save(post).getId();
+    }
 }
