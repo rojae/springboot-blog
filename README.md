@@ -5,7 +5,9 @@ ___[블로그 개발] Spring data JPA, H2, lombok 사용 -> 글 추가, 리스�
 
 *** 
 시작 페이지 
+
 [추가] 글 수정, 삭제, DateTime 수정
+
 http://localhost:8080/blog/index.html
 
 *** 
