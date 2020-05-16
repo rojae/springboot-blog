@@ -10,6 +10,14 @@ ___[블로그 개발] Spring data JPA, H2, lombok 사용 -> 글 추가, 리스�
 
 http://localhost:8080/blog/index.html
 
+***
+
+[추가] oAuth 2.0 Facebook login 1단계 구현
+
+-> 페이스북 설정
+
+-> 권한 설정, securityConfig 및 로그인 시도 및 리다이렉트
+
 *** 
 [추가] 글 쓰기, 글 보기
 
