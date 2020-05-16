@@ -4,7 +4,9 @@ spring boot blog rojae with IntelliJ
 ___[블로그 개발] Spring data JPA, H2, lombok 사용 -> 글 추가, 리스트로 확인, 글 상세 보기___
 
 *** 
-시작 페이지
+시작 페이지 
+
+[추가] 글 수정, 삭제, DateTime 수정
 
 http://localhost:8080/blog/index.html
 
@@ -22,3 +24,11 @@ http://localhost:8080/post/write?subject=테스트제목&content=테스트내용
 http://localhost:8080/post/list
 
 http://localhost:8080/post/write
+
+*** 
+
+___[블로그 관리자 개발]___
+
+*** 
+
+계획 중
