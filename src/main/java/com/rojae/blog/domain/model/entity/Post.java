@@ -22,6 +22,10 @@ public class Post {
     @GeneratedValue
     int id;
 
+    // for social login
+    String userId;
+    String name;
+
     @NotNull
     @Size(min = 1, max = 255)
     String title;
@@ -33,6 +37,8 @@ public class Post {
     @Size(min = 1, max = 100000000)
     @Column(length = 100000000, nullable = false)
     String content;
+
+    String _csrf;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     LocalDateTime regDate;

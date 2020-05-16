@@ -6,6 +6,16 @@ import com.rojae.blog.infrastructure.dao.PostDao;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.ConnectionData;
+import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.facebook.api.Facebook;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +33,9 @@ public class PostController {
     @Autowired
     private PostDao postDao;
 
+    @Autowired
+    private ConnectionRepository connectionRepository;
+
     @RequestMapping(value = "/write", method = RequestMethod.GET)
     public String form(Post post) {
         return "form";
@@ -32,10 +45,13 @@ public class PostController {
     // binding Result를 통해서 에러 처리
     @RequestMapping(value = "/write", method = RequestMethod.POST)
     public String write(@Valid Post post, BindingResult bindingResult) {
+        User user = getConnect();
         if (bindingResult.hasErrors()) {
             return "form";
         }
         post.setRegDate(LocalDateTime.now());
+        post.setUserId(user.getProviderUserId());
+        post.setName(user.getDisplayName());
         return "redirect:/post/" + postDao.save(post).getId();
     }
 
@@ -55,7 +71,11 @@ public class PostController {
 
     @RequestMapping("/{id}/delete")
     public String delete(@PathVariable int id) {
-        postDao.deleteById(id);
+        User user = getConnect();
+        Post post = postDao.findById(id).orElse(null);
+        if (post.getUserId().equals(user.getProviderUserId())) {
+            postDao.deleteById(id);
+        }
         return "redirect:/post/list";
     }
 
@@ -68,9 +88,36 @@ public class PostController {
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
     public String edit(@Valid Post post, BindingResult bindingResult) {
+        User user = getConnect();
         if (bindingResult.hasErrors()) {
             return "form";
         }
-        return "redirect:/post/" + postDao.save(post).getId();
+        Post oldPost = postDao.findById(post.getId()).orElse(null);
+        if (oldPost.getUserId().equals(user.getProviderUserId())) {
+            oldPost.setTitle(post.getTitle());
+            oldPost.setSubtitle(post.getSubtitle());
+            oldPost.setContent(post.getContent());
+            return "redirect:/post/" + postDao.save(oldPost).getId();
+        }
+        return "form";
     }
+
+    private User getConnect() {
+        Connection<Facebook> connection = connectionRepository.findPrimaryConnection(Facebook.class);
+        if (connection == null) {
+            return null;
+        }
+        ConnectionData data = connection.createData();
+        return new User(data.getProviderUserId(), data.getDisplayName());
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class User {
+        String providerUserId;
+        String displayName;
+    }
+
 }
