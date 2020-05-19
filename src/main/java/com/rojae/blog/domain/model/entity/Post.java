@@ -22,6 +22,9 @@ public class Post {
     @GeneratedValue
     int id;
 
+    String userId;
+    String name;
+
     @NotNull
     @Size(min = 1, max = 255)
     String title;
