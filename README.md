@@ -4,6 +4,7 @@ spring boot blog rojae with IntelliJ
 ___[블로그 개발] Spring data JPA, H2, lombok 사용 -> 글 추가, 리스트로 확인, 글 상세 보기___
 
 HTTP 2.0
+
 SSL 인증서 사용
 
 social security -> security oauth2.0 (진행)
