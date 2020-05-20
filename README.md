@@ -3,6 +3,12 @@ spring boot blog rojae with IntelliJ
 
 ___[블로그 개발] Spring data JPA, H2, lombok 사용 -> 글 추가, 리스트로 확인, 글 상세 보기___
 
+HTTP 2.0
+
+SSL 인증서 사용
+
+social security -> security oauth2.0 (진행)
+
 *** 
 시작 페이지 
 
@@ -12,7 +18,7 @@ http://localhost:8080/blog/index.html
 
 ***
 
-[추가] oAuth 2.0 Facebook login 1단계 구현
+[추가] Facebook login 1단계 구현
 
 -> 페이스북 설정
 
