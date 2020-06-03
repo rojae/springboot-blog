@@ -38,7 +38,7 @@
                     <a href="/connect">Connections</a>
                 </li>
                 <li>
-                    <a href="http://millky.com/@origoni/folder/30/post/list">자바 블로그 개발하기</a>
+                    <a href="">로재의 개발 일기</a>
                 </li>
             </ul>
         </div>
@@ -81,6 +81,9 @@
         </p>
     </form>
         <div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
+
+    <a href="javascript:;" class="btn_social" data-social="facebook">페이스북 로그인</a><br/>
+
 </div>
 
 <!-- Footer -->
@@ -122,7 +125,17 @@
 
 <!-- facebook -->
 <div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v7.0&appId=313124872955260&autoLogAppEvents=1"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v7.0&appId=313124872955260&autoLogAppEvents=1&state=rojae"></script>
+
+<script>
+    let socials = document.getElementsByClassName("btn_social");
+    for(let social of socials) {
+        social.addEventListener('click', function(){
+            let socialType = this.getAttribute('data-social');
+            location.href="/oauth2/authorization/" + socialType;
+        })
+    }
+</script>
 
 <script src="/webjars/jquery/2.1.3/dist/jquery.min.js"></script>
 <script src="/webjars/bootstrap/3.3.4/dist/js/bootstrap.min.js"></script></body>

@@ -1,3 +1,4 @@
+/*
 package com.rojae.blog.application.configuration;
 
 import org.springframework.context.annotation.Bean;
@@ -27,7 +28,6 @@ public class SocialConfig extends SocialConfigurerAdapter {
         repository.setConnectionSignUp(new QuickConnectionSignup());
         return repository;
     }
-
     private static class QuickConnectionSignup implements ConnectionSignUp {
         @Override
         public String execute(Connection<?> connection) {
@@ -43,4 +43,4 @@ public class SocialConfig extends SocialConfigurerAdapter {
     public SignInAdapter signInAdapter() {
         return new QuickSignInAdapter(new HttpSessionRequestCache());
     }
-}
+}*/

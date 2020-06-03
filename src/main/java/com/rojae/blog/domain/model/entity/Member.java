@@ -1,27 +1,40 @@
 package com.rojae.blog.domain.model.entity;
 
 
-import lombok.Data;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
 @Entity
-public class Member implements Serializable {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Member extends Time implements Serializable{
     @Id
     @GeneratedValue
+    @NotNull
     Long id;
-    String name;
-    String username;
-    String remark;
 
-    public Member(){}
-    public Member(String name, String username, String remark){
-        this.name = name;
-        this.username = username;
-        this.remark = remark;
+    @NotNull
+    String userEmail;
+
+    @NotNull
+    String username;
+
+    @NotNull
+    String accessToken;
+
+    @NotNull
+    String Expire_Time;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    public String getRoleKey() {
+        return this.role.getKey();
     }
 }

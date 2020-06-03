@@ -4,6 +4,10 @@ target/
 !**/src/main/**
 !**/src/test/**
 
+# properties file
+application-oauth.properties
+application-ssh.properties
+
 ### STS ###
 .apt_generated
 .classpath
@@ -12,6 +16,8 @@ target/
 .settings
 .springBeans
 .sts4-cache
+
+
 
 ### IntelliJ IDEA ###
 .idea
