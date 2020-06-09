@@ -13,6 +13,13 @@ target/
 .springBeans
 .sts4-cache
 
+# properties file
+application-oauth.properties
+application-ssh.properties
+
+# key
+RlogKS.p12
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
