@@ -26,26 +26,29 @@ import static com.rojae.blog.application.configuration.SocialType.*;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/login/**", "/**/write*", "/**/edit*", "/**/delete*")
-                .permitAll()
-                    .antMatchers("/facebook").hasAuthority(FACEBOOK.getRoleType())
-                    .antMatchers("/google").hasAuthority(GOOGLE.getRoleType())
-                    .antMatchers("/kakao").hasAuthority(KAKAO.getRoleType())
-                    .antMatchers("/naver").hasAuthority(NAVER.getRoleType())
-                    .anyRequest().authenticated()
+                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/facebook").hasAuthority(FACEBOOK.getRoleType())
+                .antMatchers("/google").hasAuthority(GOOGLE.getRoleType())
+                .antMatchers("/kakao").hasAuthority(KAKAO.getRoleType())
+                .antMatchers("/naver").hasAuthority(NAVER.getRoleType())
+                .antMatchers("/**/write*", "/**/edit*", "/**/delete*").authenticated()
+                .anyRequest().permitAll()
+
+        .and()
+                .csrf().disable()
+                .headers().frameOptions().disable()
                 .and()
-                    .oauth2Login()
-                    .userInfoEndpoint().userService(new CustomOAuth2UserService())  // 네이버 USER INFO의 응답을 처리하기 위한 설정
+                .oauth2Login()
+                .userInfoEndpoint().userService(new CustomOAuth2UserService())  // 네이버 USER INFO의 응답을 처리하기 위한 설정
                 .and()
-                    .defaultSuccessUrl("/loginSuccess")
-                    .failureUrl("/loginFailure")
+                .defaultSuccessUrl("/loginSuccess")
+                .failureUrl("/loginFailure")
                 .and()
-                    .exceptionHandling()
-                    .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
+                .exceptionHandling()
+                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
     }
 
     @Bean
@@ -62,10 +65,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .collect(Collectors.toList());
 
         registrations.add(CustomOAuth2Provider.KAKAO.getBuilder("kakao")
-                    .clientId(kakaoClientId)
-                    .clientSecret(kakaoClientSecret)
-                    .jwkSetUri("temp")
-                    .build());
+                .clientId(kakaoClientId)
+                .clientSecret(kakaoClientSecret)
+                .jwkSetUri("temp")
+                .build());
 
         registrations.add(CustomOAuth2Provider.NAVER.getBuilder("naver")
                 .clientId(naverClientId)

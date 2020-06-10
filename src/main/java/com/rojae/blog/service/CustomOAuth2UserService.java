@@ -1,5 +1,8 @@
 package com.rojae.blog.service;
 
+import com.rojae.blog.domain.model.entity.User;
+import com.rojae.blog.infrastructure.dao.UserDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.RequestEntity;
@@ -17,17 +20,22 @@ import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+@Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private static final String MISSING_USER_INFO_URI_ERROR_CODE = "missing_user_info_uri";
 
@@ -41,6 +49,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private Converter<OAuth2UserRequest, RequestEntity<?>> requestEntityConverter = new OAuth2UserRequestEntityConverter();
 
     private RestOperations restOperations;
+
+    @Autowired
+    private UserDao userDao;
 
     public CustomOAuth2UserService() {
         RestTemplate restTemplate = new RestTemplate();
@@ -106,6 +117,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             authorities.add(new SimpleGrantedAuthority("SCOPE_" + authority));
         }
 
+        System.out.println(token.getTokenValue());
+        System.out.println(authorities);
+        System.out.println(userAttributes);
+        System.out.println(userNameAttributeName);
+
+        if(SaveUser(userAttributes, token.getTokenValue()))
+            System.out.println("===== DB STORED =====");
+        else
+            System.out.println("[SAVE UserInfo ERROR] DataBase Store Fail! ");
+
+
         return new DefaultOAuth2User(authorities, userAttributes, userNameAttributeName);
     }
 
@@ -118,5 +140,31 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userAttributes.remove("response");
         }
         return userAttributes;
+    }
+
+    private boolean SaveUser(Map<String, Object> userInfo, String accessToken){
+        try {
+            User user = User.builder()
+                    .id(12)
+                    .userName(String.valueOf(userInfo.get("name")))
+                    .userEmail(String.valueOf(userInfo.get("email")))
+                    .accessToken(accessToken)
+                    .build();
+
+            System.out.println(user.getUserName());
+            System.out.println(user.getUserEmail());
+            System.out.println(user.getAccessToken());
+            System.out.println(user.getId());
+            System.out.println(user.getCreatedDate());
+            System.out.println(user.getModifiedDate());
+
+            userDao.save(user);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 }
