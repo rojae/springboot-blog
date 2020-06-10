@@ -19,6 +19,13 @@ target/
 *.iml
 *.ipr
 
+# properties file
+application-oauth.properties
+application-ssh.properties
+
+# key
+RlogKS.p12
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
