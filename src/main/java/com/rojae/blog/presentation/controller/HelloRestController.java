@@ -5,13 +5,10 @@ import java.util.List;
 import com.rojae.blog.domain.model.entity.Post;
 import com.rojae.blog.infrastructure.dao.PostDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.rojae.blog.domain.model.entity.Hello;
 import com.rojae.blog.infrastructure.dao.HelloDao;
