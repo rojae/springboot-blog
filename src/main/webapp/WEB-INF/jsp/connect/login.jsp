@@ -7,13 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Rojae Blog</title>
     <link rel="stylesheet" href="/webjars/bootstrap/3.3.4/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/webjars/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/webjars/origoni-startbootstrap-clean-blog/1.0.3/css/clean-blog.min.css">
-    <title>Login</title>
 </head>
 <body>
-
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container-fluid">
@@ -25,20 +23,23 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/post/list">SpringBlog</a>
+            <a class="navbar-brand" href="#">로재의 개발일기</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="/post/write">Write Post</a>
+                    <a href="/blog/index.html">Home</a>
                 </li>
                 <li>
-                    <a href="/connect">Connections</a>
+                    <a href="#about.html">최신글</a>
                 </li>
                 <li>
-                    <a href="">로재의 개발 일기</a>
+                    <a href="/post">인기글</a>
+                </li>
+                <li>
+                    <a href="/post/write">글쓰기</a>
                 </li>
             </ul>
         </div>
@@ -47,96 +48,112 @@
     <!-- /.container -->
 </nav>
 
-<header class="intro-header" style="background-image: url('https://cdn.pixabay.com/photo/2019/09/17/18/48/computer-4484282_960_720.jpg')">
+<!-- Page Header -->
+<!-- Set your background image for this header on the line below. -->
+<header class="intro-header" style="background-image: url('https://raw.githubusercontent.com/rojae/startbootstrap-clean-blog/master/img/home-bg.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="page-heading">
-                    <h1>Login</h1>
+                <div class="site-heading">
+                    <h2>Rlog</h2>
                     <hr class="small">
-                    <span class="subheading">Connect to Facebook</span>
+                    <span class="subheading">SpringBoot Rojae Blog</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
+<!-- Main Content -->
 <div class="container">
-    <h3>Connect to Facebook API v2.3</h3>
 
-    <!-- appId -->
-    <c:set var="client_id" value="305102013820244" />
-    <!-- redirct url -->
-    <c:set var="redirect_url" value="https://localhost:8443/post/list" />
-    <!-- serect -->
-    <c:set var="secret_code" value="" />
+    <div class="social_login_form">
 
-    <form action="https://www.facebook.com/v7.0/dialog/oauth?app_id=${client_id}&redirect_uri=${redirect_url}&&client_secret=${secret_code}&response_type=token" method="POST">
-        <input type="hidden" name="_csrf" value="${_csrf.token}"></input>
-        <div class="formInfo">
-            <p>You aren't connected to Facebook yet. Click the button to connect this application with your Facebook account.</p>
-        </div>
-        <p>
-            <button type="submit">Connect to Facebook</button>
-        </p>
-    </form>
-        <div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
+        <a href="javascript:;" class="btn_social" data-social="facebook">페이스북 로그인</a><br/>
+        <a href="javascript:;" class="btn_social" data-social="google">구글 로그인</a><br/>
+        <a href="javascript:;" class="btn_social" data-social="kakao">카카오톡 로그인</a><br/>
+        <a href="javascript:;" class="btn_social" data-social="naver">네이버 로그인</a><br/>
 
-    <a href="javascript:;" class="btn_social" data-social="facebook">페이스북 로그인</a><br/>
+    </div>
 
-</div>
 
-<!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                    <li>
-                        <a href="https://www.facebook.com/millkyc">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                                </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/origoni">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://twitter.com/origoni">
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="#">
                                 <span class="fa-stack fa-lg">
                                     <i class="fa fa-circle fa-stack-2x"></i>
                                     <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
                                 </span>
-                        </a>
-                    </li>
-                </ul>
-                <p class="copyright text-muted">Powered By <a href="https://redcoder.tistory.com/">rojae</a> | Skin designed by <a href="http://startbootstrap.com/template-overviews/clean-blog/">Start Bootstrap</a></p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted">Copyright &copy; Your Website 2014</p>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
-<!-- facebook -->
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v7.0&appId=313124872955260&autoLogAppEvents=1&state=rojae"></script>
-
-<script>
-    let socials = document.getElementsByClassName("btn_social");
-    for(let social of socials) {
-        social.addEventListener('click', function(){
-            let socialType = this.getAttribute('data-social');
-            location.href="/oauth2/authorization/" + socialType;
-        })
-    }
-</script>
-
-<script src="/webjars/jquery/2.1.3/dist/jquery.min.js"></script>
-<script src="/webjars/bootstrap/3.3.4/dist/js/bootstrap.min.js"></script></body>
+    <script>
+        let socials = document.getElementsByClassName("btn_social");
+        for(let social of socials) {
+            social.addEventListener('click', function(){
+                let socialType = this.getAttribute('data-social');
+                location.href="/oauth2/authorization/" + socialType;
+            })
+        }
+    </script>
+    <script src="/webjars/jquery/2.1.3/dist/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/3.3.4/dist/js/bootstrap.min.js"></script>
+    <script src="/webjars/origoni-startbootstrap-clean-blog/1.0.3/js/clean-blog.min.js"></script>
+</body>
 </html>
+
+
+© 2020 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+© 2020 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

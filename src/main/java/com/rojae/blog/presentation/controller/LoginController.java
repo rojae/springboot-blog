@@ -1,3 +1,4 @@
+/*
 package com.rojae.blog.presentation.controller;
 
 import org.springframework.stereotype.Controller;
@@ -10,4 +11,4 @@ public class LoginController {
     public String login() {
         return "connect/login";
     }
-}
+}*/

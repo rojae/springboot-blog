@@ -1,5 +1,6 @@
 package com.rojae.blog.domain.model.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -19,9 +20,9 @@ import lombok.Getter;
 public abstract class Time {
     @CreatedDate	// Entity가 처음 저장될 때 생성일을 주입하는 어노테이션.
     @Column(updatable = false)
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @LastModifiedDate	// Entity가 수정될 때 수정일자를 자동 주입하는 어노테이션.
-    private Date modifiedDate;
+    private LocalDateTime modifiedDate;
 
 }

@@ -1,37 +1,43 @@
 package com.rojae.blog.domain.model.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import com.sun.istack.NotNull;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.stereotype.Component;
 
 import lombok.Builder;
 import lombok.Getter;
 
-@Component
+import java.util.Date;
+
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends Time{
     @Id
-    @GeneratedValue
-    int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-    @NotNull
+    @Column(nullable = false)
+    String userId;
+
+    @Column(nullable = false)
     String userName;
 
-    @NotNull
+    @Column(nullable = false)
     String userEmail;
 
-    @NotNull
+    @Column(nullable = false)
     String accessToken;
 
     @Builder
-    public User(int id, String userName, String userEmail, String accessToken){
+    public User(Long id, String userId, String userName, String userEmail, String accessToken){
         this.id = id;
+        this.userId = userId;
         this.userName = userName;
         this.userEmail = userEmail;
         this.accessToken = accessToken;
