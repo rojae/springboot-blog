@@ -1,17 +1,22 @@
 package com.rojae.blog.application.configuration;
 
+import com.rojae.blog.security.handler.LoginFailureHandler;
+import com.rojae.blog.security.handler.LoginSuccessHandler;
 import com.rojae.blog.service.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 import java.util.List;
@@ -26,8 +31,14 @@ import static com.rojae.blog.application.configuration.SocialType.*;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("**/resources/**", "**/static/**", "**/css/**", "**/js/**", "**/img/**", "**/icon/**");
+    }
+
+    @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests()
+        httpSecurity
+                .authorizeRequests()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/facebook").hasAuthority(FACEBOOK.getRoleType())
                 .antMatchers("/google").hasAuthority(GOOGLE.getRoleType())
@@ -36,18 +47,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**/write*", "/**/edit*", "/**/delete*").authenticated()
                 .anyRequest().permitAll()
 
-        .and()
+                .and()
                 .csrf().disable()
                 .headers().frameOptions().disable()
+
                 .and()
                 .oauth2Login()
-                .userInfoEndpoint().userService(new CustomOAuth2UserService())  // 네이버 USER INFO의 응답을 처리하기 위한 설정
+
+                .and().oauth2Login().userInfoEndpoint().userService(new CustomOAuth2UserService()) // 네이버 USER INFO의 응답을 처리하기 위한 설정
+
                 .and()
                 .defaultSuccessUrl("/loginSuccess")
                 .failureUrl("/loginFailure")
+                .successHandler(AuthenticationSuccessHandler())
+                .failureHandler(AuthenticationFailureHandler())
+
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
+                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/loginPage"));
+
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler AuthenticationSuccessHandler() {
+        return new LoginSuccessHandler();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler AuthenticationFailureHandler() {
+        return new LoginFailureHandler();
     }
 
     @Bean
@@ -66,19 +94,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         registrations.add(CustomOAuth2Provider.KAKAO.getBuilder("kakao")
                 .clientId(kakaoClientId)
                 .clientSecret(kakaoClientSecret)
-                .jwkSetUri("temp")
+                .jwkSetUri("backUp_oauthController")
                 .build());
 
         registrations.add(CustomOAuth2Provider.NAVER.getBuilder("naver")
                 .clientId(naverClientId)
                 .clientSecret(naverClientSecret)
-                .jwkSetUri("temp")
+                .jwkSetUri("backUp_oauthController")
                 .build());
         return new InMemoryClientRegistrationRepository(registrations);
     }
 
     private ClientRegistration getRegistration(OAuth2ClientProperties clientProperties, String client) {
-        if("google".equals(client)) {
+        if ("google".equals(client)) {
             OAuth2ClientProperties.Registration registration = clientProperties.getRegistration().get("google");
             return CommonOAuth2Provider.GOOGLE.getBuilder(client)
                     .clientId(registration.getClientId())
@@ -87,7 +115,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .build();
         }
 
-        if("facebook".equals(client)) {
+        if ("facebook".equals(client)) {
             OAuth2ClientProperties.Registration registration = clientProperties.getRegistration().get("facebook");
             return CommonOAuth2Provider.FACEBOOK.getBuilder(client)
                     .clientId(registration.getClientId())
@@ -99,4 +127,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         return null;
     }
+
+
 }

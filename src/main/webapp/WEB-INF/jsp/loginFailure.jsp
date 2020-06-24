@@ -11,6 +11,6 @@
 </head>
 <body>
 <h1>인증을 실패하였습니다.</h1>
-<a th:href="@{/login}">다시 로그인하기</a>
+<a th:href="@{/loginPage}">다시 로그인하기</a>
 </body>
 </html>

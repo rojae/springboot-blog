@@ -1,18 +1,22 @@
 package com.rojae.blog.presentation.controller;
 
 import com.rojae.blog.infrastructure.dto.UserDto;
-import com.rojae.blog.service.UserService;
+import com.rojae.blog.test.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 @Controller
@@ -25,15 +29,47 @@ public class OAuth2Controller {
         return "home";
     }
 
-    @GetMapping("/login")
-    public String login(Model model, HttpServletResponse response, HttpServletRequest request){
+
+    @GetMapping("/loginPage")
+    public String loginPage() {
+        return "connect/login";
+    }
+
+    @GetMapping("/loginSuccess")
+    public String loginSuccess(@CookieValue(value = "greeting", defaultValue = "사용자") String name, @CookieValue(value = "mail", defaultValue = "???") String email, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html; charset=UTF-8");
+
+        PrintWriter out = response.getWriter();
+
+        out.println("<script>alert('"+name+"님, 계정이 등록 되었습니다!      이메일 : "+email+"'); </script>");
+
+        out.flush();
+
+  /*
+        Cookie setCookie = new Cookie("enrolled", "Authencated_User");
+        response.addCookie(setCookie);
+*/
+        return "blog";
+    }
+
+    @GetMapping("/loginFailure")
+    public String loginFailure() {
+        return "loginFailure";
+    }
+
+    @GetMapping("/loginPreview")
+    public String loginDo(Model model, @CookieValue(value = "accessToken", defaultValue = "") String logined, HttpServletResponse response, HttpServletRequest request){
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
+        System.out.println("@"+logined);
+
         // 익명의 유저
-        if(auth.getPrincipal() == "anonymousUser")
-            return "connect/login";
-        else {
+        if(auth.getPrincipal() == "anonymousUser")  // 익명의 유저인 경우에는 로그인 페이지로 이동
+            return "redirect:/connect/login";
+        else if(logined.length() != 0)              // 이미 로그인을 했다면 메인 페이지로 이동, 로그인 성공 핸들러는 작동
+            return "redirect:/blog";
+        else {                                      // 사용자 정보를 가져와 디비처리
             Object authInfo = auth.getDetails();
             DefaultOAuth2User userDetails = (DefaultOAuth2User) auth.getPrincipal();
 
@@ -49,10 +85,12 @@ public class OAuth2Controller {
 
             String access_token = (String) userDetails.getAttribute("access_token");
             String identi = (String) userDetails.getAttribute("id");
+            String name = (String) userDetails.getAttribute("name");
+            String email = (String) userDetails.getAttribute("email");
 
             System.out.println(identi);
-            System.out.println((String) userDetails.getAttribute("name"));
-            System.out.println((String) userDetails.getAttribute("email"));
+            System.out.println(name);
+            System.out.println(email);
             System.out.println(access_token);
 
             // 데이터베이스 저장 부분
@@ -87,21 +125,18 @@ public class OAuth2Controller {
             // 1. 토큰
             // 2. 식별자
             // 세션 서비스를 만들어야 하지 않을까?
-            // JWY로 구현하면 좋지 않을까?
+            // JWT로 구현하면 좋지 않을까?
             ArrayList<Cookie> setCookie = new ArrayList<>();
             setCookie.add(new Cookie("accessToken", access_token));
             setCookie.add(new Cookie("identifier", identi));
+            setCookie.add(new Cookie("greeting", name));
+            setCookie.add(new Cookie("mail", email));
 
             for (Cookie cookie : setCookie) response.addCookie(cookie);
 
             model.addAttribute("message", "accessToken" + (String) userDetails.getAttribute("access_token"));
 
-            return "/";
+            return "redirect:/loginSuccess";
         }
-    }
-
-    @GetMapping("/loginFailure")
-    public String loginFailure() {
-        return "loginFailure";
     }
 }
