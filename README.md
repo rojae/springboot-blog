@@ -18,11 +18,10 @@ http://localhost:8080/blog/index.html
 
 ***
 
-[추가] Facebook login 1단계 구현
+[추가] Facebook login 완성
 
--> 페이스북 설정
-
--> 권한 설정, securityConfig 및 로그인 시도 및 리다이렉트
+-> 관리자 권한 부여 필요 (관리자 페이지)
+-> 카카오, 구글, 네이버 개발자 인증만 받으면 구현 가능 (추가 계획)
 
 *** 
 [추가] 글 쓰기, 글 보기
