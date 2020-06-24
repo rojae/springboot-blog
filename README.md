@@ -32,6 +32,14 @@ http://localhost:8080/blog/index.html
 -> 토큰 데이터베이스 저장
 
 *** 
+junit Test
+
+Service 객체의 반복되는 오류를 해결하기 위해서 테스트 작성
+
+/test/*.*
+
+
+*** 
 [추가] 글 쓰기, 글 보기
 
 http://localhost:8080/post/list
