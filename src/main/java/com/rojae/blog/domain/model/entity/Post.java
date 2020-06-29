@@ -20,6 +20,9 @@ public class Post {
     int id;
 
     String userId;
+
+    String userEmail;
+
     String name;
 
     @NotNull

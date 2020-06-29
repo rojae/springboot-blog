@@ -32,7 +32,7 @@ import static com.rojae.blog.application.configuration.SocialType.*;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("**/resources/**", "**/static/**", "**/css/**", "**/js/**", "**/img/**", "**/icon/**");
+        web.ignoring().antMatchers("**/application/json/**", "**/resources/**", "**/static/**", "**/css/**", "**/js/**", "**/img/**", "**/icon/**");
     }
 
     @Override

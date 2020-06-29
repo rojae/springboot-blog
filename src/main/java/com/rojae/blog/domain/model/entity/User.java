@@ -34,12 +34,21 @@ public class User extends Time{
     @Column(nullable = false)
     String accessToken;
 
+    @Column(nullable = false)
+    String socialType;
+
+    @Column(nullable = true)
+    String thumbNail;
+
     @Builder
-    public User(Long id, String userId, String userName, String userEmail, String accessToken){
+    public User(Long id, String userId, String userName, String userEmail, String accessToken, String socialType, String thumbNail){
         this.id = id;
         this.userId = userId;
         this.userName = userName;
         this.userEmail = userEmail;
         this.accessToken = accessToken;
+        this.socialType = socialType;
+        this.thumbNail = thumbNail;
     }
+
 }

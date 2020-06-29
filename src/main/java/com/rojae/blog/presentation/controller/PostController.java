@@ -1,15 +1,18 @@
 package com.rojae.blog.presentation.controller;
 
+import com.rojae.blog.application.utility.ObjectUtils;
 import com.rojae.blog.domain.model.entity.Post;
 import com.rojae.blog.infrastructure.dao.PostDao;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.rojae.blog.test.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +25,9 @@ public class PostController {
     @Autowired
     private PostDao postDao;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(value = "/write", method = RequestMethod.GET)
     public String form(Post post) {
         return "form";
@@ -30,11 +36,18 @@ public class PostController {
     // post 클래스에서 검사한 유효성 검사를
     // binding Result를 통해서 에러 처리
     @RequestMapping(value = "/write", method = RequestMethod.POST)
-    public String write(@Valid Post post, BindingResult bindingResult) {
+    public String write(@CookieValue(value = "greeting", defaultValue = "") String userName,
+                        @CookieValue(value = "mail", defaultValue = "") String userEmail,
+                        @CookieValue(value = "accessToken", defaultValue = "") String accessToken,
+                        @Valid Post post, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "form";
         }
         post.setRegDate(LocalDateTime.now());
+        post.setName(userName);
+        post.setUserEmail(userEmail);
+        post.setUserId(String.valueOf(userService.getInfo(accessToken).getId()));
+
         return "redirect:/post/" + postDao.save(post).getId();
     }
 
@@ -53,9 +66,15 @@ public class PostController {
     }
 
     @RequestMapping("/{id}/delete")
-    public String delete(@PathVariable int id) {
-        postDao.deleteById(id);
-        return "redirect:/post/list";
+    public String delete(@CookieValue(value = "accessToken", defaultValue = "") String accessToken,
+                         @PathVariable int id) {
+        String uid = String.valueOf(userService.getInfo(accessToken).getId());
+        if(!ObjectUtils.isEmpty(postDao.findAllByUserId(uid))) {
+            postDao.deleteById(id);
+            return "redirect:/post/list";
+        }
+        else
+            return "invalid";
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
@@ -66,7 +85,7 @@ public class PostController {
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-    public String edit(@Valid Post post, BindingResult bindingResult) {
+    public String edit(@CookieValue(value = "accessToken", defaultValue = "") String accessToken, @Valid Post post, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "form";
         }

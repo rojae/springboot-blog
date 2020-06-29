@@ -123,9 +123,11 @@
             social.addEventListener('click', function(){
                 let socialType = this.getAttribute('data-social');
                 location.href="/oauth2/authorization/" + socialType;
+                document.cookie = "socialType="+ this.getAttribute('data-social').toUpperCase();
             })
         }
     </script>
+
     <script src="/webjars/jquery/2.1.3/dist/jquery.min.js"></script>
     <script src="/webjars/bootstrap/3.3.4/dist/js/bootstrap.min.js"></script>
     <script src="/webjars/origoni-startbootstrap-clean-blog/1.0.3/js/clean-blog.min.js"></script>

@@ -9,9 +9,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>로재의 개발 일기</title>
+
     <link rel="stylesheet" href="/webjars/bootstrap/3.3.4/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/webjars/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/webjars/origoni-startbootstrap-clean-blog/1.0.3/css/clean-blog.min.css">
+
+    <style>
+        .thumbnail{
+            background-color:gray;
+            margin:10px;
+            width:150px;
+            height:150px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+        .thumbnail.round{
+            border-radius: 10%;
+        }
+        .thumbnail.circle{
+            border-radius: 100%;
+        }
+    </style>
+
 </head>
 <body>
 <!-- Navigation -->
@@ -73,6 +93,9 @@
 </header>
 
 <!-- Post Content -->
+<div class="thumbnail circle" style="background-image:url('http://k.kakaocdn.net/dn/c90QMN/btqEKMpacKr/SnhKrJ3w0U4j8eOZKMHpG0/img_640x640.jpg')"></div>
+<span class="meta">Posted by <a href="#">${post.name}</a> on ${post.regDate}</span>
+
 <article>
     <div class="container">
         <div class="row">
@@ -80,6 +103,7 @@
                 ${post.content}
             </div>
         </div>
+
 
         <div class="pull-right">
             <a href="/post/${post.id}/edit">
