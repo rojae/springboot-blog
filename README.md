@@ -16,6 +16,9 @@ social security -> security oauth2.0 (진행)
 
 http://localhost:8080/blog/index.html
 
+![스크린샷 2020-06-30 오전 1 04 54](https://user-images.githubusercontent.com/41769568/86032872-fc4a7e80-ba72-11ea-8e42-3c163583b8f7.png)
+
+
 ***
 
 [추가] PostgreSql 추가 연동
@@ -55,6 +58,12 @@ http://localhost:8080/post/list
 http://localhost:8080/post/write
 
 *** 
+
+[추가] 회원정보, 카카오 사용자 정보
+
+
+![스크린샷 2020-06-30 오전 1 08 50](https://user-images.githubusercontent.com/41769568/86032880-02d8f600-ba73-11ea-9f22-cde63d12d167.png)
+
 
 ___[블로그 관리자 개발]___
 
