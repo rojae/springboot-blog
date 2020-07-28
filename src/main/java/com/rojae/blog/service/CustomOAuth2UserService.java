@@ -1,6 +1,7 @@
 package com.rojae.blog.service;
 
-import com.rojae.blog.test.UserService;
+import com.rojae.blog.service.UserService;
+
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.RequestEntity;

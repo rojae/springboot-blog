@@ -86,7 +86,7 @@
                             <c:out value="${post.subtitle}" escapeXml="true"></c:out>
                         </h3>
                     </a>
-                    <p class="post-meta">Posted by <a href="#">${post.name}</a> on ${post.regDate}</p>
+                    <p class="post-meta">Posted by <a href="#">${post.user.userName}</a> on ${post.regDate}</p>
                 </div>
                 <hr>
             </c:forEach>

@@ -19,11 +19,9 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    String userId;
-
-    String userEmail;
-
-    String name;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "user_id")
+    User user;
 
     @NotNull
     @Size(min = 1, max = 255)

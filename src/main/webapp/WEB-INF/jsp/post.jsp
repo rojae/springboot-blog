@@ -85,7 +85,7 @@
                 <div class="post-heading">
                     <h1><c:out value="${post.title}" escapeXml="true"></c:out></h1>
                     <h2 class="subheading"><c:out value="${post.subtitle}" escapeXml="true"></c:out></h2>
-                    <span class="meta">Posted by <a href="#">${post.name}</a> on ${post.regDate}</span>
+                    <span class="meta">Posted by <a href="#">${post.user.userName}</a> on ${post.regDate}</span>
                 </div>
             </div>
         </div>
@@ -94,7 +94,7 @@
 
 <!-- Post Content -->
 <div class="thumbnail circle" style="background-image:url('http://k.kakaocdn.net/dn/c90QMN/btqEKMpacKr/SnhKrJ3w0U4j8eOZKMHpG0/img_640x640.jpg')"></div>
-<span class="meta">Posted by <a href="#">${post.name}</a> on ${post.regDate}</span>
+<span class="meta">Posted by <a href="#">${post.user.userName}</a> on ${post.regDate}</span>
 
 <article>
     <div class="container">

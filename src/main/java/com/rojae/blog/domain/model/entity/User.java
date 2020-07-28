@@ -2,46 +2,52 @@ package com.rojae.blog.domain.model.entity;
 
 import javax.persistence.*;
 
-import com.sun.istack.NotNull;
+import com.rojae.blog.application.utility.ClientUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.stereotype.Component;
 
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends Time{
     @Id
+    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(nullable = false)
+    // mappedBy 추가
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Post> post = new ArrayList<Post>();
+
+    @Column(name = "userId", nullable = false)
     String userId;
 
-    @Column(nullable = false)
+    @Column(name = "userName", nullable = false)
     String userName;
 
-    @Column(nullable = false)
+    @Column(name = "userEmail", nullable = false)
     String userEmail;
 
-    @Column(nullable = false)
+    @Column(name = "accessToken", nullable = false)
     String accessToken;
 
-    @Column(nullable = false)
+    @Column(name = "socialType", nullable = false)
     String socialType;
 
-    @Column(nullable = true)
+    @Column(name = "thumbNail", nullable = true)
     String thumbNail;
 
+    @Column(name = "sIp", nullable =  false)
+    private String sIp;
+
     @Builder
-    public User(Long id, String userId, String userName, String userEmail, String accessToken, String socialType, String thumbNail){
+    public User(Long id, String userId, String userName, String userEmail, String accessToken, String socialType, String thumbNail, String sIp){
         this.id = id;
         this.userId = userId;
         this.userName = userName;
@@ -49,6 +55,7 @@ public class User extends Time{
         this.accessToken = accessToken;
         this.socialType = socialType;
         this.thumbNail = thumbNail;
+        this.sIp = sIp;
     }
 
 }

@@ -28,15 +28,18 @@ public class UserDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private String thumbNail;
+    private String sIp;
 
     public User toEntity(){
         User build = User.builder()
+                .id(id)
                 .userId(userId)
                 .userName(userName)
                 .userEmail(userEmail)
                 .accessToken(accessToken)
                 .socialType(socialType)
                 .thumbNail(thumbNail)
+                .sIp(sIp)
                 .build();
 
         return build;
@@ -44,7 +47,7 @@ public class UserDto {
 
     @Builder
     public UserDto(Long id, String userId, String userName, String userEmail, String accessToken, String socialType,
-                   LocalDateTime createdDate, LocalDateTime modifiedDate, String thumbNail) {
+                   LocalDateTime createdDate, LocalDateTime modifiedDate, String thumbNail, String sIp) {
         this.id = id;
         this.userId = userId;
         this.userName = userName;
@@ -54,6 +57,7 @@ public class UserDto {
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
         this.thumbNail = thumbNail;
+        this.sIp = sIp;
     }
 
 

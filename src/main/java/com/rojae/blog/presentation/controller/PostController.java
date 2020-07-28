@@ -2,12 +2,13 @@ package com.rojae.blog.presentation.controller;
 
 import com.rojae.blog.application.utility.ObjectUtils;
 import com.rojae.blog.domain.model.entity.Post;
+import com.rojae.blog.domain.model.entity.User;
 import com.rojae.blog.infrastructure.dao.PostDao;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.rojae.blog.test.UserService;
+import com.rojae.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,14 +41,15 @@ public class PostController {
                         @CookieValue(value = "mail", defaultValue = "") String userEmail,
                         @CookieValue(value = "accessToken", defaultValue = "") String accessToken,
                         @Valid Post post, BindingResult bindingResult) {
+
+        User user = userService.getUser(accessToken);
+
         if (bindingResult.hasErrors()) {
             return "form";
         }
-        post.setRegDate(LocalDateTime.now());
-        post.setName(userName);
-        post.setUserEmail(userEmail);
-        post.setUserId(String.valueOf(userService.getInfo(accessToken).getId()));
 
+        post.setRegDate(LocalDateTime.now());
+        post.setUser(user);
         return "redirect:/post/" + postDao.save(post).getId();
     }
 
@@ -67,14 +69,19 @@ public class PostController {
 
     @RequestMapping("/{id}/delete")
     public String delete(@CookieValue(value = "accessToken", defaultValue = "") String accessToken,
-                         @PathVariable int id) {
-        String uid = String.valueOf(userService.getInfo(accessToken).getId());
-        if(!ObjectUtils.isEmpty(postDao.findAllByUserId(uid))) {
-            postDao.deleteById(id);
-            return "redirect:/post/list";
+                         @PathVariable int id) throws IllegalArgumentException{
+            Long uid = userService.getInfo(accessToken).getId();
+        try {
+
+            if (!ObjectUtils.isEmpty(postDao.findOneByUserIdAndId(id, uid))) {
+                postDao.deleteById(id);
+                return "redirect:/post/list";
+            } else
+                return "invalid";
         }
-        else
-            return "invalid";
+        catch (Exception e){
+            return "redirect:/invalid";
+        }
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
@@ -85,10 +92,24 @@ public class PostController {
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-    public String edit(@CookieValue(value = "accessToken", defaultValue = "") String accessToken, @Valid Post post, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public String edit(@CookieValue(value = "accessToken", defaultValue = "") String accessToken,
+                       @PathVariable int id, @Valid Post post, BindingResult bindingResult) throws IllegalArgumentException{
+        Long uid = userService.getInfo(accessToken).getId();
+
+        if (bindingResult.hasErrors())
             return "form";
+
+        try{
+            if(!ObjectUtils.isEmpty(postDao.findOneByUserIdAndId(id, uid))) {
+                return "redirect:/post/" + postDao.save(post).getId();
+            }
+            else
+                return "invalid";
+        }catch (Exception e){
+            return "redirect:/invalid";
         }
-        return "redirect:/post/" + postDao.save(post).getId();
+
     }
+
+
 }

@@ -1,7 +1,9 @@
 package com.rojae.blog.presentation.controller;
 
+import com.rojae.blog.application.utility.ClientUtils;
 import com.rojae.blog.infrastructure.dto.UserDto;
-import com.rojae.blog.test.UserService;
+import com.rojae.blog.service.UserService;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
@@ -114,33 +116,45 @@ public class OAuth2Controller {
 
                 // 데이터베이스 저장 부분
                 try {
-                    System.out.println("======= DB STORE ======= ");
                     UserDto userDto;
 
-                    if(thumbNail.equals("")) {
-                        userDto
-                                = UserDto.builder()
-                                .userId(identi)
-                                .userName(name)
-                                .userEmail(email)
-                                .accessToken(access_token)
-                                .socialType(socialType)
-                                .build();
+                    // 가입한 유저인지 확인
+                    boolean isUser = userService.isSignup(identi, socialType);
+
+                    // 가입하지 않은 유저
+                    if(!isUser) {
+                        System.out.println("======= DB STORE ======= ");
+
+                        if (thumbNail.equals("")) {
+                            userDto
+                                    = UserDto.builder()
+                                    .userId(identi)
+                                    .userName(name)
+                                    .userEmail(email)
+                                    .accessToken(access_token)
+                                    .socialType(socialType)
+                                    .sIp(ClientUtils.getRemoteIP(request))
+                                    .build();
+                        } else {
+                            userDto
+                                    = UserDto.builder()
+                                    .userId(identi)
+                                    .userName(name)
+                                    .userEmail(email)
+                                    .accessToken(access_token)
+                                    .socialType(socialType)
+                                    .thumbNail(thumbNail)
+                                    .sIp(ClientUtils.getRemoteIP(request))
+                                    .build();
+                        }
+
+                        // Service -> Repository || -> Entity -> DB
+                        userService.saveUser(userDto);
                     }
                     else{
-                         userDto
-                                = UserDto.builder()
-                                .userId(identi)
-                                .userName(name)
-                                .userEmail(email)
-                                .accessToken(access_token)
-                                .socialType(socialType)
-                                .thumbNail(thumbNail)
-                                .build();
+                        System.out.println(socialType);
+                        userService.updateAccessToken(identi, socialType, access_token);
                     }
-
-                    // Service -> Repository || -> Entity -> DB
-                    userService.saveUser(userDto);
 
                 } catch (Exception e) {
                     System.out.println("------- FAIL -------");

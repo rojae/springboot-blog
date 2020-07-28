@@ -65,4 +65,9 @@ public class HelloRestController {
     public String index() {
         return "helloworld!";
     }
+
+    @RequestMapping("/invalid")
+    public String invalid(Model model) {
+        return "invalid";
+    }
 }

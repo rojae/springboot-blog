@@ -1,7 +1,5 @@
 package com.rojae.blog.application.utility;
 
-import java.util.Map;
-
 public class ObjectUtils {
     public static boolean isEmpty(Object obj) {
         if (obj == null) {
